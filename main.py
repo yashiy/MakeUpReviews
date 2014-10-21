@@ -14,12 +14,43 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-import webapp2
+import os
 
-class MainHandler(webapp2.RequestHandler):
+from google.appengine.ext import ndb
+import jinja2
+import webapp2
+import logging
+
+from models import MakeUpPics
+
+
+jinja_env = jinja2.Environment(
+                               loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
+                               autoescape=True)
+
+# Generic Key to serve as parent
+PARENT_KEY = ndb.Key("Entity", "weatherpics_root")
+
+class MakeUpPicsPage(webapp2.RequestHandler):
     def get(self):
-        self.response.write('Hello world!')
+        weatherpics_query = MakeUpPics.query(ancestor=PARENT_KEY).order(-MakeUpPics.last_touch_date_time)
+        
+        template = jinja_env.get_template("templates/mainpage.html")
+        self.response.write(template.render({"weatherpics_query": weatherpics_query}))
+        
+class InsertPicAction(webapp2.RequestHandler):
+    def post(self):
+        if(self.request.get("entity_key")):
+            logging.info(self.request.get("entity_key"))
+            weatherPic = ndb.Key(urlsafe=self.request.get("entity_key"))
+        else:
+            new_pic = MakeUpPics(parent = PARENT_KEY,
+                                  image_url = self.request.get("image_url"),
+                                  caption = self.request.get("caption"))
+            new_pic.put()
+        self.redirect(self.request.referer)
 
 app = webapp2.WSGIApplication([
-    ('/', MainHandler)
+    ("/", MakeUpPicsPage),
+    ("/insertpic", InsertPicAction)
 ], debug=True)
