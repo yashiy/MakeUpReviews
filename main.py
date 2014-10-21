@@ -47,7 +47,8 @@ class InsertPicAction(webapp2.RequestHandler):
             new_pic = MakeUpPics(parent = PARENT_KEY,
                                   image_url = self.request.get("image_url"),
                                   caption = self.request.get("caption"),
-                                  brand = self.request.get("brand"))
+                                  brand = self.request.get("brand"),
+                                  category = self.request.get("category"))
             new_pic.put()
         self.redirect(self.request.referer)
 
