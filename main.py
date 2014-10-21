@@ -33,10 +33,10 @@ PARENT_KEY = ndb.Key("Entity", "weatherpics_root")
 
 class MakeUpPicsPage(webapp2.RequestHandler):
     def get(self):
-        weatherpics_query = MakeUpPics.query(ancestor=PARENT_KEY).order(-MakeUpPics.last_touch_date_time)
+        makeup_query = MakeUpPics.query(ancestor=PARENT_KEY).order(-MakeUpPics.last_touch_date_time)
         
         template = jinja_env.get_template("templates/mainpage.html")
-        self.response.write(template.render({"weatherpics_query": weatherpics_query}))
+        self.response.write(template.render({"makeup_query": makeup_query}))
         
 class InsertPicAction(webapp2.RequestHandler):
     def post(self):
@@ -46,7 +46,8 @@ class InsertPicAction(webapp2.RequestHandler):
         else:
             new_pic = MakeUpPics(parent = PARENT_KEY,
                                   image_url = self.request.get("image_url"),
-                                  caption = self.request.get("caption"))
+                                  caption = self.request.get("caption"),
+                                  brand = self.request.get("brand"))
             new_pic.put()
         self.redirect(self.request.referer)
 
