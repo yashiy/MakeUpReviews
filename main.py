@@ -52,7 +52,46 @@ class InsertPicAction(webapp2.RequestHandler):
             new_pic.put()
         self.redirect(self.request.referer)
 
+
+class FaceMakeUpPage(webapp2.RequestHandler):
+    def get(self):
+        print(MakeUpPics)
+        facemakeup_query = MakeUpPics.query(MakeUpPics.category == "Face Make Up").order(-MakeUpPics.last_touch_date_time)
+        print(facemakeup_query)
+        print(ndb.ModelAttribute())
+        
+        template = jinja_env.get_template("templates/mainpage.html")
+        self.response.write(template.render({"makeup_query": facemakeup_query}))
+        
+
+class EyeMakeUpPage(webapp2.RequestHandler):
+    def get(self):
+        eyemakeup_query = MakeUpPics.query(MakeUpPics.category == "Eye Make Up").order(-MakeUpPics.last_touch_date_time)
+
+        template = jinja_env.get_template("templates/mainpage.html")
+        self.response.write(template.render({"makeup_query": eyemakeup_query}))
+        
+class LipsPage(webapp2.RequestHandler):
+    def get(self):
+        lips_query = MakeUpPics.query(MakeUpPics.category == "Lips").order(-MakeUpPics.last_touch_date_time)
+
+        template = jinja_env.get_template("templates/mainpage.html")
+        self.response.write(template.render({"makeup_query": lips_query}))
+        
+class NailsPage(webapp2.RequestHandler):
+    def get(self):
+        nails_query = MakeUpPics.query(MakeUpPics.category == "Nails").order(-MakeUpPics.last_touch_date_time)
+
+        template = jinja_env.get_template("templates/mainpage.html")
+        self.response.write(template.render({"makeup_query": nails_query}))
+
+
 app = webapp2.WSGIApplication([
     ("/", MakeUpPicsPage),
-    ("/insertpic", InsertPicAction)
+    ("/insertpic", InsertPicAction),
+    ("/facemakeup", FaceMakeUpPage),
+    ("/eyemakeup", EyeMakeUpPage),
+    ("/lips", LipsPage),
+    ("/nails", NailsPage)
+    
 ], debug=True)
