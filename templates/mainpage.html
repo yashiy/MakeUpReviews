@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Weather Pics</title>
+<title>Make Up Reviews</title>
 
 <link rel="stylesheet" type="text/css"
 	href="/static/stylesheets/makeUpReviews_withbootstrap.css">
@@ -77,9 +77,19 @@
 					</button>
 				</div>
 				<img src="{{ makeup.image_url }}" alt="A picture of weather">
-				<p class="caption">{{makeup.caption}}</p>
-				<p class="brand">{{makeup.brand}}</p>
-				<p class="category">{{makeup.category}}</p>
+				<div class="rating pull-right">
+					<span class="glyphicon glyphicon-star-empty"></span> <span
+						class="glyphicon glyphicon-star-empty"></span> <span
+						class="glyphicon glyphicon-star-empty"></span> <span
+						class="glyphicon glyphicon-star-empty"></span> <span
+						class="glyphicon glyphicon-star-empty"></span>
+				</div>
+				<hr>
+				<div>
+					<p class="caption">{{makeup.caption}}</p>
+					<p class="brand">{{makeup.brand}}</p>
+					<p class="category">{{makeup.category}}</p>
+				</div>
 				<!-- take out later -->
 			</div>
 			{% endfor %}
@@ -119,6 +129,16 @@
 							</div>
 						</div>
 
+
+						<div class="add-review-rating">
+							<span class="glyphicon glyphicon-star-empty star" id="star1"></span> 
+							<span class="glyphicon glyphicon-star-empty star" id="star2"></span> 
+							<span class="glyphicon glyphicon-star-empty star" id="star3"></span> 
+							<span class="glyphicon glyphicon-star-empty star" id="star4"></span> 
+							<span class="glyphicon glyphicon-star-empty star" id="star5"></span>
+						</div>
+
+
 						<select class="form-control" name="category">
 							<option value="Face Make Up">Face Make Up</option>
 							<option value="Eye Make Up">Eye Make Up</option>
@@ -144,8 +164,8 @@
 
 
 
-	<div class="modal fade" id="enlarge-pic" tabindex="-1"
-		role="dialog" aria-labelledby="Insert WeatherPic" aria-hidden="true">
+	<div class="modal fade" id="enlarge-pic" tabindex="-1" role="dialog"
+		aria-labelledby="Insert WeatherPic" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -154,17 +174,17 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<div class = "enlarge-pic-img">
-						<img id="enlarge-pic-id"/>
+					<div class="enlarge-pic-img">
+						<img id="enlarge-pic-id" />
 					</div>
-					<div class = "enlarge-caption">
-						<h3 class = "enlarge-caption-text"></h3>
+					<div class="enlarge-caption">
+						<h3 class="enlarge-caption-text"></h3>
 					</div>
 					<div>
-						<h4 class = "enlarge-brand"></h4>
-						<h4 class = "enlarge-category"></h4>
+						<h4 class="enlarge-brand"></h4>
+						<h4 class="enlarge-category"></h4>
 					</div>
-					
+
 				</div>
 
 				<div class="modal-footer">
