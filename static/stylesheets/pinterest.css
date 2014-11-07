@@ -75,10 +75,30 @@
     -moz-column-count: 4;
     column-count: 4;
   }
+}
   
 .rating {
 	margin: auto;
 }
 
-
+#small_pin_caption_display{
+	clear: both;
 }
+
+.thumbs{
+	position: relative;
+	float: right;
+	right: 5px;
+	top: 35px;
+	display: inline-block;
+}
+
+.glyphicon-thumbs-up, .glyphicon-thumbs-down{
+	font-size: large;
+	font-color: black;
+}
+.thumb-up{
+	padding-right: 7px;
+}
+
+

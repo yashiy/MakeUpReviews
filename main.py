@@ -48,7 +48,9 @@ class InsertPicAction(webapp2.RequestHandler):
                                   image_url = self.request.get("image_url"),
                                   caption = self.request.get("caption"),
                                   brand = self.request.get("brand"),
-                                  category = self.request.get("category"))
+                                  category = self.request.get("category"),
+                                  star_rating = int(self.request.get("star_rating")))
+            
             new_pic.put()
         self.redirect(self.request.referer)
 
