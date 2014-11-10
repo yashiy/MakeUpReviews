@@ -39,6 +39,10 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
+					<li><a id="sort-by-most-recent" class="sort" href="#">Most Recent</a></li>
+						
+					<li><a id="sort-by-popularity" class="sort" href="#">Most Popular</a></li>
+						
 					<li><a id="add-pic" data-toggle="modal"
 						data-target="#insert-pic-modal" href="#">Add Review</a></li>
 				</ul>
@@ -48,6 +52,7 @@
 					<li><a id="lips" href="/lips">Lips</a></li>
 					<li><a id="nails" href="/nails">Nails</a></li>
 				</ul>
+
 			</div>
 			<!--/.nav-collapse -->
 		</div>
@@ -56,14 +61,50 @@
 		<div id="columns">
 			{% for makeup in makeup_query %}
 			<div class="pin">
-				<div class="thumbs hidden">
-					<button class="thumb-up"> 
+			
+				{% set agr = makeup.agree|int  %}
+				{% set disagr = makeup.disagree|int %}
+				
+				{% set forbar = agr + disagr %}
+				
+				{% if forbar == 0 %}
+					{% set agreebarone =  0 %}
+					{% set disagreebarone =  0 %}
+					
+				{% else %}
+					{% set agreebarone =  agr / forbar %}
+					{% set disagreebarone =  disagr / forbar %}
+					
+					
+				{% endif %}
+				{% set agreebar = agreebarone * 100 %}
+				{% set disagreebar = disagreebarone * 100 %}
+				
+				
+				
+				
+				<p class="addAgree" >{{makeup.agree}}</p>
+				<p class="addDisagree">{{makeup.disagree}}</p>
+				<div class="progress" style="height: 10px">
+					<div class="agree-bar progress-bar progress-bar-success" style="width: {{ agreebar }}%">
+							        
+				      <span class="sr-only"></span>
+				    </div>
+				    <div class="disagree-bar progress-bar progress-bar-warning progress-bar-striped" style="width: {{ disagreebar }}%">
+				      <span class="sr-only"></span>
+				    </div>
+				</div>
+			
+			
+				<div class="thumbs" style="display:none">
+			
+					<button type="submit" class="thumb-up btn btn-success"> 
 						<span class="glyphicon glyphicon-thumbs-up"></span>
 					</button>
-					
-					<button class="thumb-down">
+					<button type="submit" class="thumb-down btn btn-danger">
 						<span class="glyphicon glyphicon-thumbs-down"></span>
 					</button>
+				    <input type="hidden"  class="makeup_key hidden-input" value="{{ makeup.key.urlsafe() }}">
 				</div>
 				
 				<img src="{{ makeup.image_url }}" alt="A picture of weather">	
@@ -81,6 +122,8 @@
 				<p class="caption" id="small_pin_caption_display">{{makeup.caption}}</p>
 				<p class="brand">{{makeup.brand}}</p>
 				<p class="category">{{makeup.category}}</p>
+
+				
 
 				
 
@@ -191,10 +234,6 @@
 			</div>
 		</div>
 	</div>
-
-
-
-
 
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script

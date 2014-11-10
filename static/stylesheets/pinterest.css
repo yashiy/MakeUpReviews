@@ -18,6 +18,7 @@
 }
 
 .pin {
+  width:100%;
   display: inline-block;
   background: #FEFEFE;
   border: 2px solid #FAFAFA;
@@ -88,9 +89,8 @@
 .thumbs{
 	position: relative;
 	float: right;
-	right: 5px;
-	top: 35px;
-	display: inline-block;
+	height:0;
+	display: inline;
 }
 
 .glyphicon-thumbs-up, .glyphicon-thumbs-down{
@@ -100,5 +100,27 @@
 .thumb-up{
 	padding-right: 7px;
 }
+
+.thumbs .thumb-up, .thumbs .thumb-down{
+	border-radius : 18px;
+	
+}
+
+.addAgree{
+	
+	float: left;
+	padding-right: 2px;
+}
+
+.addDisagree{
+	
+	float: right;
+	padding-left: 2px;
+}
+
+.progress {
+	margin-top:3px;
+}
+
 
 

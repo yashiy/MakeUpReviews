@@ -14,12 +14,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+import json
+import logging
 import os
 
 from google.appengine.ext import ndb
 import jinja2
 import webapp2
-import logging
 
 from models import MakeUpPics
 
@@ -34,7 +35,7 @@ PARENT_KEY = ndb.Key("Entity", "weatherpics_root")
 class MakeUpPicsPage(webapp2.RequestHandler):
     def get(self):
         makeup_query = MakeUpPics.query(ancestor=PARENT_KEY).order(-MakeUpPics.last_touch_date_time)
-        
+        print(self.request.get("sortby"))
         template = jinja_env.get_template("templates/mainpage.html")
         self.response.write(template.render({"makeup_query": makeup_query}))
         
@@ -49,7 +50,9 @@ class InsertPicAction(webapp2.RequestHandler):
                                   caption = self.request.get("caption"),
                                   brand = self.request.get("brand"),
                                   category = self.request.get("category"),
-                                  star_rating = int(self.request.get("star_rating")))
+                                  star_rating = int(self.request.get("star_rating")),
+                                  agree = 0,
+                                  disagree = 0)
             
             new_pic.put()
         self.redirect(self.request.referer)
@@ -87,13 +90,27 @@ class NailsPage(webapp2.RequestHandler):
         template = jinja_env.get_template("templates/mainpage.html")
         self.response.write(template.render({"makeup_query": nails_query}))
 
-
+class UpdateLikes(webapp2.RequestHandler):
+    def post(self):
+        """ Receives the updated round scores from a player after they complete a round. """
+        print("Makeup_key" + self.request.get('makeup_key'))
+        pin = ndb.Key(urlsafe=self.request.get('makeup_key')).get()
+        agree = self.request.get("agree")
+        if(agree == "true"):
+            pin.agree = pin.agree+1
+        else:
+            pin.disagree = pin.disagree + 1
+        pin.put()
+        self.response.out.write(json.dumps({"agree": pin.agree, "disagree": pin.disagree}))
+        
+    
+        
 app = webapp2.WSGIApplication([
     ("/", MakeUpPicsPage),
     ("/insertpic", InsertPicAction),
     ("/facemakeup", FaceMakeUpPage),
     ("/eyemakeup", EyeMakeUpPage),
     ("/lips", LipsPage),
-    ("/nails", NailsPage)
-    
+    ("/nails", NailsPage),
+    ("/likesupdate", UpdateLikes)
 ], debug=True)

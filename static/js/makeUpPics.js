@@ -55,39 +55,24 @@ rh.wp.enableButtons = function() {
 						.prop("disabled", false);
 
 			});
+	console.log($(".pin").not(document.getElementsByClassName("thumbs")));
 
-	$(".pin").click(function() {
-
-		$('#enlarge-pic-id').attr('src', $(this).children('img').attr("src"));
-		$('.enlarge-caption-text').text($(this).children('.caption').text());
-		$('.enlarge-brand').text($(this).children('.brand').text());
-		$('.enlarge-category').text($(this).children('.category').text());
-		//$('.enlarge-stars').attr('class', $(this).children('div').attr("class"));
-		$('#enlarge-pic').modal('show');
+	$(".pin").children().not(".thumbs").click(function() {
+			$('#enlarge-pic-id').attr('src', $(this).parent('.pin').children('img').attr("src"));
+			$('.enlarge-caption-text').text( $(this).parent('.pin').children('.caption').text());
+			$('.enlarge-brand').text( $(this).parent('.pin').children('.brand').text());
+			$('.enlarge-category').text( $(this).parent('.pin').children('.category').text());
+			//$('.enlarge-stars').attr('class', $(this).children('div').attr("class"));
+			$('#enlarge-pic').modal('show');
 	})
 	
 	$(".pin").hover(function(){
 
-		$(this).children(".thumbs").removeClass("hidden");
+		$(this).children(".thumbs").fadeIn();
 	}, function(){
-		$(this).children(".thumbs").addClass("hidden");
+		$(this).children(".thumbs").fadeOut();
 	}
 	)
-	
-/*	$(".star").hover(function(){
-		console.log(this);
-		var index = $('.star').index(this);
-		for(var i =0;i <= index; i++){
-			$('#star'+(i+1)).removeClass("glyphicon-star-empty");
-			$('#star'+(i+1)).addClass("glyphicon-star");
-		}
-	}, function(){
-		$('.star').removeClass("glyphicon-star");
-		$('.star').addClass("glyphicon-star-empty");
-	
-	}); */	
-	
-	
 	
 	
 	$(".star").hover(function(){
@@ -122,9 +107,85 @@ rh.wp.enableButtons = function() {
 		}
 		$('#star-number').val(index+1);
 	});
+	
+	
+	var updateProgressBar = function(thumbPressed) {
+		var agreeValue = parseInt($(thumbPressed).parent().parent().children('.addAgree').text(), 10);
+		var disagreeValue = parseInt($(thumbPressed).parent().parent().children('.addDisagree').text(), 10);
+
+		var agreeInt = parseInt(agreeValue, 10);
+		var disagreeInt = parseInt(disagreeValue, 10);
+		
+		var agreeProgress = (agreeInt / (agreeInt + disagreeInt)) * 100;
+		var disagreeProgress = (disagreeInt / (agreeInt + disagreeInt)) * 100;
+		
+		
+		console.log($(thumbPressed).parent().parent().children(".progress").children(".agree-bar"))
+		
+		$(thumbPressed).parent().parent().children(".progress").children(".agree-bar").css("width", agreeProgress + "%");
+		$(thumbPressed).parent().parent().children(".progress").children(".disagree-bar").css("width", disagreeProgress + "%");
+		
+	}
+	
+	
+	$(".thumb-up").click(function() {
+		//$(this).parent().parent().children('.addAgree').text(agreeValue + 1);		$("#agree-number").val(agreeValue + 1);	
+		var data =  {"agree": "true", "disagree":"false",
+				"makeup_key": $(this).parent().children('.makeup_key').val()};
+		var thumbup = this
+		$.ajax({
+			method:"POST",
+			url:"/likesupdate",
+			data:data,
+			success: function(res){
+				res = JSON.parse(res);
+				$(thumbup).parent().parent().children('.addAgree').html(res.agree);
+				$(thumbup).parent().parent().children('.addDisagree').html(res.disagree);
+				
+				
+			},
+			error: function(err){
+				
+			}		
+		})
+		
+		updateProgressBar(this);	
+		
+	});
+	
+	$(".thumb-down").click(function() {
+		//$(this).parent().parent().children('.addAgree').text(agreeValue + 1);		$("#agree-number").val(agreeValue + 1);	
+		var data =  {"agree": "false", "disagree":"true",
+				"makeup_key": $(this).parent().children('.makeup_key').val()};
+		var thumbup = this
+		$.ajax({
+			method:"POST",
+			url:"/likesupdate",
+			data:data,
+			success: function(res){
+				res = JSON.parse(res);
+				$(thumbup).parent().parent().children('.addAgree').html(res.agree);
+				$(thumbup).parent().parent().children('.addDisagree').html(res.disagree);
+			},
+			error: function(err){
+				
+			}
+		})
+		updateProgressBar(this);	
+
+	});
 
 }
 
+
+$(".sort").click(function(){
+	if($(this).attr("id") == "sort-by-most-recent"){
+		window.location = window.location.href.split("?")[0] + "?sortby=recent";
+	}else{
+		window.location = window.location.href.split("?")[0] + "?sortby=pop";
+	}
+	
+})
 
 
 
