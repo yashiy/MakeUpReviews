@@ -7,7 +7,7 @@
 }
 
 #columns {
-  -webkit-column-count: 4;
+  -webkit-column-count: auto;
   -webkit-column-gap: 10px;
   -webkit-column-fill: auto;
   -moz-column-count: 4;
@@ -16,7 +16,15 @@
   column-gap: 10px;
   column-fill: auto;
 }
-
+.navbar-fixed-top{
+	background-color: #d5b9af;
+}
+.navbar-brand, #faceMakeUp, #eyeMakeUp, #lips, #nails, #sort-by-most-recent, #sort-by-popularity, #add-pic{
+	color: #473e42;
+}
+.navbar-header a:hover{
+	color: #FFFFFF;
+}
 .pin {
   width:100%;
   
@@ -107,6 +115,24 @@
 	clear: both;
 }
 
+.progress-bar{
+	background-image: none;
+}
+
+
+div.progress-bar.agree-bar {
+	background-image: none;
+	background-color: rgba(125,0,102,0.65);
+	background-repeat: repeat-x;
+}
+
+div.progress-bar.disagree-bar {
+	background-color:rgba(252,236,133,0.65);
+	background-image:none;
+	background-repeat: repeat-x;
+}
+
+
 .thumbs{
 	position: relative;
 	float: right;
@@ -124,6 +150,20 @@
 	font-size: 3px;
 	margin-top: -10px;
 }
+
+#btn-s{
+	background-image: none;
+	border-color: #6c0055;
+	background-color: #6c0055;
+	color: white;
+}
+
+#btn-us{
+	background-image: none;
+	border-color: #fce71d;
+	background-color: #fce71d;
+	color: white;
+}
 .thumb-up{
 	padding-right: 7px;
 	
@@ -134,12 +174,19 @@
 	
 }
 
-.pin .brand {
-	font: bold 1.0em Cursive;
+
+div .brand {
+	font-family: 'Dancing Script', cursive;
 	color: grey;
+	padding-top: 3px;
+	padding-bottom: 2px;
 }
-.pin .caption {
-	font: 1.3em "Droid Serif", cursive;
+.pin .brand{
+	font-size: 13px;
+}
+
+div .caption {
+	font: 1.3em "Poiret One", cursive;
 	color: black;
 }
 
@@ -161,4 +208,30 @@
 }
 
 
+div.insertpictype input{
+	margin-left: 5px;
+	margin-bottom: 10px;
+}
 
+.btn.btn-primary.btn-makeup{
+	background-color:#6c0055;
+	background-image:none;
+	border-color: #6c0055;
+	opacity:0.6;
+}
+
+.btn.btn-primary.btn-makeup:hover{
+	opacity:0.8;
+}
+
+.btn.btn-default.btn-makeup-cancel{
+	background-color:#fce71d;
+	background-image:none;
+	border-color: #fce71d;
+	opacity:0.6;
+	
+}
+
+.btn.btn-default.btn-makeup-cancel:hover{
+	opacity:0.8;
+}

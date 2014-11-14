@@ -124,18 +124,25 @@ rh.wp.enableButtons = function() {
 	});
 	
 	
-	var updateProgressBar = function(thumbPressed) {
+	var updateProgressBar = function(thumbPressed, agreeAdded) {
+		var agreeInt = 0;
+		var disagreeInt = 0;
 		var agreeValue = parseInt($(thumbPressed).parent().parent().children(".thumbs").children('.addAgree').text(), 10);
 		var disagreeValue = parseInt($(thumbPressed).parent().parent().children(".thumbs").children('.addDisagree').text(), 10);
 
-		var agreeInt = parseInt(agreeValue, 10);
-		var disagreeInt = parseInt(disagreeValue, 10);
+		if (agreeAdded) {
+			agreeInt = parseInt(agreeValue, 10) + 1;
+			disagreeInt = parseInt(disagreeValue, 10);
+		} else {
+			disagreeInt = parseInt(disagreeValue, 10)+ 1;
+			agreeInt = parseInt(agreeValue, 10);
+		}
 		
 		var agreeProgress = (agreeInt / (agreeInt + disagreeInt)) * 100;
 		var disagreeProgress = (disagreeInt / (agreeInt + disagreeInt)) * 100;
 		
 		
-		console.log($(thumbPressed).parent().parent().children(".progress").children(".agree-bar"))
+		console.log("agree value: " + agreeInt);
 		
 		$(thumbPressed).parent().parent().children(".progress").children(".agree-bar").css("width", agreeProgress + "%");
 		$(thumbPressed).parent().parent().children(".progress").children(".disagree-bar").css("width", disagreeProgress + "%");
@@ -164,7 +171,7 @@ rh.wp.enableButtons = function() {
 			}		
 		})
 		
-		updateProgressBar(this);	
+		updateProgressBar(this, true);	
 		
 	});
 	
@@ -186,7 +193,7 @@ rh.wp.enableButtons = function() {
 				
 			}
 		})
-		updateProgressBar(this);	
+		updateProgressBar(this, false);	
 
 	});
 	

@@ -26,13 +26,17 @@
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 <link href="http://fonts.googleapis.com/css?family=Droid+Serif&effect=emboss" rel='stylesheet' type='text/css'>
+<link href="http://fonts.googleapis.com/css?family=Dancing+Script&effect=emboss" rel='stylesheet' type='text/css'>
+<link href="http://fonts.googleapis.com/css?family=Pacifico" rel='stylesheet' type='text/css'>
+<link href="http://fonts.googleapis.com/css?family=Poiret+One" rel='stylesheet' type='text/css'>
+
 
 
 </head>
 
 <body>
 
-	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="navbar navbar-fixed-top" role="navigation">
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed"
@@ -89,6 +93,7 @@
 				{% set agr = makeup.agree|int  %}
 				{% set disagr = makeup.disagree|int %}
 				
+				
 				{% set forbar = agr + disagr %}
 				
 				{% if forbar == 0 %}
@@ -106,23 +111,23 @@
 					
 			
 				<div class="progress" style="height: 5px">
-					<div class="agree-bar progress-bar progress-bar-success" style="width: {{ agreebar }}%"> 
+					<div class="agree-bar progress-bar prog-bar-id-s" style="width: {{ agreebar }}%"> 
 							        
 				      <span class="sr-only"></span>
 				    </div>
-				    <div class="disagree-bar progress-bar progress-bar-warning progress-bar-striped" style="width: {{ disagreebar }}%">
+				    <div class="disagree-bar progress-bar prog-bar-id-us" style="width: {{ disagreebar }}%">
 				      <span class="sr-only"></span>
 				    </div>
 				</div>
 				
 				<div class="thumbs" style="display:none">
 					<p class="addAgree" >{{makeup.agree}}</p>
-					<button type="submit" class="thumb-up btn btn-success"> 
+					<button type="submit" class="thumb-up btn" id="btn-s"> 
 						<span class="glyphicon glyphicon-thumbs-up"></span>
 					</button>
 					
 					<p class="addDisagree">{{makeup.disagree}}</p>
-					<button type="submit" class="thumb-down btn btn-danger">
+					<button type="submit" class="thumb-down btn" id="btn-us">
 						<span class="glyphicon glyphicon-thumbs-down"></span>
 					</button>
 				    <input type="hidden"  class="makeup_key hidden-input" value="{{ makeup.key.urlsafe() }}">
@@ -152,7 +157,6 @@
 					
 					<div class="insertpictype">
 	       				   <input type="radio" id="localpic" name="uploadtype" value="localpic">LOCAL
-	       				   <br>
 	       				   <input type="radio" id="webpic" name="uploadtype" value="webpic">WEB
        				</div>
 
@@ -171,8 +175,7 @@
 						</div>
 
 						<div class="upload-from-web form-group hidden">
-							<label for="pic-input" class="col-sm-2 control-label">MakeUp
-								Pic</label>
+							<label for="pic-input" class="col-sm-2 control-label">Url: </label>
 							<div class="col-sm-10">
 								<input type="text" class="form-control" id="pic-input"
 									placeholder="Upload your picture here" name="image_url">
@@ -204,16 +207,32 @@
 							<option value="Nails">Nails</option>
 						</select>
 						 <select class="form-control" name="brand">
-							<option value="Brand 1">Brand 1</option>
-							<option value="Brand 2">Brand 2</option>
-							<option value="Brand 3">Brand 3</option>
+							<option value="L'Oreal">L'Oreal</option>
+							<option value="Maybelline">Maybelline</option>
+							<option value="Revlon">Revlon</option>
+							<option value="Rimmel">Rimmel</option>
+							<option value="E.L.F">E.L.F</option>
+							<option value="CoverGirl">CoverGirl</option>
+							<option value="bareMinerals">bareMinerals</option>
+							<option value="Benifit">Benifit</option>
+							<option value="Make Up For Ever">Make Up For Ever</option>
+							<option value="Bobbi Brown">Bobbi Brown</option>
+							<option value="Clinique">Clinique</option>
+							<option value="Dior">Dior</option>
+							<option value="Estee Lauder">Estee Lauder</option>
+							<option value="Nars">Nars</option>
+							<option value="Lancome">Lancome</option>
+							<option value="Smashbox">Smashbox</option>
+							<option value="Urban Decay">Urban Decay</option>
+							
+							
 						</select>
 
 
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-						<button type="submit" class="btn btn-primary">Add MakeUp Review</button>
+						<button type="button" class="btn btn-default btn-makeup-cancel" data-dismiss="modal">Cancel</button>
+						<button type="submit" class="btn btn-primary btn-makeup">Add MakeUp Review</button>
 					</div>
 				</form>
 			</div>
@@ -250,18 +269,18 @@
 						<img id="enlarge-pic-id" />
 					</div>
 					
-					<div class="enlarge-caption">
+					<div class="enlarge-caption caption">
 						<h3 class="enlarge-caption-text"></h3>
 					</div>
 					<div>
-						<h4 class="enlarge-brand"></h4>
+						<h4 class="enlarge-brand brand"></h4>
 						<h4 class="enlarge-category"></h4>
 					</div>
 
 				</div>
 
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-default btn-makeup-cancel" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
 		</div>
