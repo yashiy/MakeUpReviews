@@ -55,15 +55,30 @@ rh.wp.enableButtons = function() {
 						.prop("disabled", false);
 
 			});
-	console.log($(".pin").not(document.getElementsByClassName("thumbs")));
 
 	$(".pin").children().not(".thumbs").click(function() {
+		
+			for(i = 1; i <= 5; i++) {
+				$("#en-star" + i).addClass("glyphicon-star-empty");
+				$("#en-star" + i).removeClass("glyphicon-star");
+			}
+		
+		
 			$('#enlarge-pic-id').attr('src', $(this).parent('.pin').children('img').attr("src"));
 			$('.enlarge-caption-text').text( $(this).parent('.pin').children('.caption').text());
 			$('.enlarge-brand').text( $(this).parent('.pin').children('.brand').text());
 			$('.enlarge-category').text( $(this).parent('.pin').children('.category').text());
 			//$('.enlarge-stars').attr('class', $(this).children('div').attr("class"));
 			$('#enlarge-pic').modal('show');
+			
+			console.log($(".en_star_rating_class").text())
+			
+			for (i = 1; i <= parseInt($(this).parent('.pin').children(".en_star_rating_class").val(), 10); i++) {
+				$("#en-star" + i).removeClass("glyphicon-star-empty");
+				$("#en-star" + i).addClass("glyphicon-star");
+			}
+			
+			
 	})
 	
 	$(".pin").hover(function(){
@@ -110,8 +125,8 @@ rh.wp.enableButtons = function() {
 	
 	
 	var updateProgressBar = function(thumbPressed) {
-		var agreeValue = parseInt($(thumbPressed).parent().parent().children('.addAgree').text(), 10);
-		var disagreeValue = parseInt($(thumbPressed).parent().parent().children('.addDisagree').text(), 10);
+		var agreeValue = parseInt($(thumbPressed).parent().parent().children(".thumbs").children('.addAgree').text(), 10);
+		var disagreeValue = parseInt($(thumbPressed).parent().parent().children(".thumbs").children('.addDisagree').text(), 10);
 
 		var agreeInt = parseInt(agreeValue, 10);
 		var disagreeInt = parseInt(disagreeValue, 10);
@@ -139,8 +154,8 @@ rh.wp.enableButtons = function() {
 			data:data,
 			success: function(res){
 				res = JSON.parse(res);
-				$(thumbup).parent().parent().children('.addAgree').html(res.agree);
-				$(thumbup).parent().parent().children('.addDisagree').html(res.disagree);
+				$(thumbup).parent().parent().children(".thumbs").children('.addAgree').html(res.agree);
+				$(thumbup).parent().parent().children(".thumbs").children('.addDisagree').html(res.disagree);
 				
 				
 			},
@@ -164,8 +179,8 @@ rh.wp.enableButtons = function() {
 			data:data,
 			success: function(res){
 				res = JSON.parse(res);
-				$(thumbup).parent().parent().children('.addAgree').html(res.agree);
-				$(thumbup).parent().parent().children('.addDisagree').html(res.disagree);
+				$(thumbup).parent().parent().children(".thumbs").children('.addAgree').html(res.agree);
+				$(thumbup).parent().parent().children(".thumbs").children('.addDisagree').html(res.disagree);
 			},
 			error: function(err){
 				
@@ -174,6 +189,25 @@ rh.wp.enableButtons = function() {
 		updateProgressBar(this);	
 
 	});
+	
+	
+	$("#localpic").click(function() {
+		console.log("local pic clicked!");
+		$(".fileinput").removeClass("hidden");
+		$(".fileinput").fadeIn();
+		
+		$(".upload-from-web").addClass("hidden");
+		$(".upload-from-web").fadeOut();
+	})
+	
+	$("#webpic").click(function() {
+		console.log("web pic clicked!");
+		$(".upload-from-web").removeClass("hidden");
+		$(".upload-from-web").fadeIn();
+		
+		$(".fileinput").addClass("hidden");
+		$(".fileinput").fadeOut();
+	})
 
 }
 

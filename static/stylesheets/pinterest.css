@@ -19,6 +19,7 @@
 
 .pin {
   width:100%;
+  
   display: inline-block;
   background: #FEFEFE;
   border: 2px solid #FAFAFA;
@@ -28,7 +29,7 @@
   -moz-column-break-inside: avoid;
   column-break-inside: avoid;
   padding: 15px;
-  padding-bottom: 5px;
+  padding-bottom: 25px;
   background: -webkit-linear-gradient(45deg, #FFF, #F9F9F9);
   opacity: 1;
 
@@ -41,7 +42,6 @@
 
 .pin img {
   width: 100%;
-  border-bottom: 1px solid #ccc;
   padding-bottom: 15px;
   margin-bottom: 5px;
 }
@@ -51,19 +51,40 @@
   color: #333;
   margin: 0;
 }
+
+.pin .thumbs p{
+	font: 1.2em "Pacifico", cursive;
+	color: black;
+	margin-top: -10px;
+}
 .enlarge-caption{
 	width: 100%;
 	text-align:center;
 }
 
 #enlarge-pic-id{
-	position: relative;
-	left:8%;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width:100%;
+	max-width:500px;
 }
 
 .enlarge-brand, .enlarge-category{
 	position: relative;
 	left:8%;
+}
+
+#enlarge-pic .enlarge-stars{
+	font-size: large;
+	position: relative;
+	right: 8%;
+	padding-bottom: 8px;
+}
+
+#enlarge-pic .modal-header, #enlarge-pic .modal-footer{
+	border-bottom: none;
+	border-top: none;
 }
 
 .pin:hover{
@@ -94,16 +115,32 @@
 }
 
 .glyphicon-thumbs-up, .glyphicon-thumbs-down{
-	font-size: large;
+	/*font-size: large;*/
 	font-color: black;
+	font-size: 15px;
+}
+
+.thumbs .btn{
+	font-size: 3px;
+	margin-top: -10px;
 }
 .thumb-up{
 	padding-right: 7px;
+	
 }
 
 .thumbs .thumb-up, .thumbs .thumb-down{
 	border-radius : 18px;
 	
+}
+
+.pin .brand {
+	font: bold 1.0em Cursive;
+	color: grey;
+}
+.pin .caption {
+	font: 1.3em "Droid Serif", cursive;
+	color: black;
 }
 
 .addAgree{
@@ -117,6 +154,7 @@
 	float: right;
 	padding-left: 2px;
 }
+
 
 .progress {
 	margin-top:3px;

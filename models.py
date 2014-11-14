@@ -3,6 +3,7 @@ from google.appengine.ext import ndb
 
 class MakeUpPics(ndb.Model):
     image_url = ndb.StringProperty()
+    image_url_local = ndb.BlobKeyProperty()
     caption = ndb.StringProperty()
     brand = ndb.StringProperty()
     category = ndb.StringProperty()

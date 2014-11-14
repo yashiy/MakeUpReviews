@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Make Up Reviews</title>
 
+
 <link rel="stylesheet" type="text/css"
 	href="/static/stylesheets/makeUpReviews_withbootstrap.css">
 
@@ -18,9 +19,14 @@
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css">
+
 <!-- Optional theme -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+<link href="http://fonts.googleapis.com/css?family=Droid+Serif&effect=emboss" rel='stylesheet' type='text/css'>
+
 
 </head>
 
@@ -59,9 +65,27 @@
 	</div>
 	<div class="container">
 		<div id="columns">
+			
+			{% set count = 0 %}
 			{% for makeup in makeup_query %}
 			<div class="pin">
-			
+				<div class="rating pull-right">
+				{% for star in range(1, 6) %}
+					{% if star <= makeup.star_rating %}
+					 <span class="glyphicon glyphicon-star"></span>
+					 {% else %}
+					<span class="glyphicon glyphicon-star-empty"></span> 
+					{% endif %} 
+				{% endfor %}
+				</div>
+				
+				<input type=text value="{{ makeup.star_rating }}" style="display:none" class="en_star_rating_class" name="en_star_rating"/>
+				
+				<img src={{images_list[loop.index0]}} alt="A picture of makeup">	
+				
+				<p class="caption" id="small_pin_caption_display">{{makeup.caption}}</p>
+				<p class="brand ">{{makeup.brand}}</p>
+				
 				{% set agr = makeup.agree|int  %}
 				{% set disagr = makeup.disagree|int %}
 				
@@ -79,14 +103,10 @@
 				{% endif %}
 				{% set agreebar = agreebarone * 100 %}
 				{% set disagreebar = disagreebarone * 100 %}
-				
-				
-				
-				
-				<p class="addAgree" >{{makeup.agree}}</p>
-				<p class="addDisagree">{{makeup.disagree}}</p>
-				<div class="progress" style="height: 10px">
-					<div class="agree-bar progress-bar progress-bar-success" style="width: {{ agreebar }}%">
+					
+			
+				<div class="progress" style="height: 5px">
+					<div class="agree-bar progress-bar progress-bar-success" style="width: {{ agreebar }}%"> 
 							        
 				      <span class="sr-only"></span>
 				    </div>
@@ -94,41 +114,21 @@
 				      <span class="sr-only"></span>
 				    </div>
 				</div>
-			
-			
+				
 				<div class="thumbs" style="display:none">
-			
+					<p class="addAgree" >{{makeup.agree}}</p>
 					<button type="submit" class="thumb-up btn btn-success"> 
 						<span class="glyphicon glyphicon-thumbs-up"></span>
 					</button>
+					
+					<p class="addDisagree">{{makeup.disagree}}</p>
 					<button type="submit" class="thumb-down btn btn-danger">
 						<span class="glyphicon glyphicon-thumbs-down"></span>
 					</button>
 				    <input type="hidden"  class="makeup_key hidden-input" value="{{ makeup.key.urlsafe() }}">
 				</div>
-				
-				<img src="{{ makeup.image_url }}" alt="A picture of weather">	
-				
-				<div class="rating pull-right">
-				{% for star in range(1, 6) %}
-					{% if star <= makeup.star_rating %}
-					 <span class="glyphicon glyphicon-star"></span>
-					 {% else %}
-					<span class="glyphicon glyphicon-star-empty"></span> 
-					{% endif %} 
-				{% endfor %}
-				</div>
-				
-				<p class="caption" id="small_pin_caption_display">{{makeup.caption}}</p>
-				<p class="brand">{{makeup.brand}}</p>
-				<p class="category">{{makeup.category}}</p>
-
-				
-
-				
-
-				<!-- take out later -->
 			</div>
+			{% set count = count + 1 %}
 			{% endfor %}
 		</div>
 	</div>
@@ -145,11 +145,32 @@
 					</button>
 					<h4 class="modal-title">Add a MakeUp Review</h4>
 				</div>
-				<form action="/insertpic" method="post" class="form-horizontal"
-					role="form">
+				<form action={{ upload_url }} method="post" class="form-horizontal"
+					role="form" enctype="multipart/form-data">
 					<input type="text" name="entity_key" class="hidden">
 					<div class="modal-body">
-						<div class="form-group">
+					
+					<div class="insertpictype">
+	       				   <input type="radio" id="localpic" name="uploadtype" value="localpic">LOCAL
+	       				   <br>
+	       				   <input type="radio" id="webpic" name="uploadtype" value="webpic">WEB
+       				</div>
+
+						<div  enctype="multipart/form-data" class="fileinput fileinput-new input-group hidden"
+							data-provides="fileinput">
+							<div class="form-control" data-trigger="fileinput">
+								<i class="glyphicon glyphicon-file fileinput-exists"></i> 
+								<span class="fileinput-filename"></span>
+							</div>
+							<span class="input-group-addon btn btn-default btn-file">
+								<span class="fileinput-new">Select file</span>
+								<span class="fileinput-exists">Change</span>
+								<input type="file" name="image_url_local">
+							</span> 
+							<a href="#" class="input-group-addon btn btn-default fileinput-exists"data-dismiss="fileinput">Remove</a>
+						</div>
+
+						<div class="upload-from-web form-group hidden">
 							<label for="pic-input" class="col-sm-2 control-label">MakeUp
 								Pic</label>
 							<div class="col-sm-10">
@@ -211,9 +232,24 @@
 					</button>
 				</div>
 				<div class="modal-body">
+
+					
+					<div class="enlarge-stars pull-right">
+						<span class="glyphicon glyphicon-star-empty" id="en-star1"></span> 
+						<span class="glyphicon glyphicon-star-empty" id="en-star2"></span> 
+						
+						<span class="glyphicon glyphicon-star-empty" id="en-star3"></span> 
+						
+						<span class="glyphicon glyphicon-star-empty" id="en-star4"></span> 
+			
+						<span class="glyphicon glyphicon-star-empty" id="en-star5"></span> 
+								
+					</div>
+
 					<div class="enlarge-pic-img">
 						<img id="enlarge-pic-id" />
 					</div>
+					
 					<div class="enlarge-caption">
 						<h3 class="enlarge-caption-text"></h3>
 					</div>
@@ -221,11 +257,7 @@
 						<h4 class="enlarge-brand"></h4>
 						<h4 class="enlarge-category"></h4>
 					</div>
-	<!-- 
-					<div>
-						<span class="enlarge-stars"></span>
-					</div>
-	 -->
+
 				</div>
 
 				<div class="modal-footer">
@@ -242,6 +274,9 @@
 	<script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 	<script src="/static/js/makeUpPics.js"></script>
+	
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
 </body>
 
 </html>

@@ -14,7 +14,22 @@ indexes:
   properties:
   - name: category
   - name: last_touch_date_time
+
+- kind: MakeUpPics
+  properties:
+  - name: category
+  - name: last_touch_date_time
     direction: desc
+
+- kind: MakeUpPics
+  ancestor: yes
+  properties:
+  - name: agree
+
+- kind: MakeUpPics
+  ancestor: yes
+  properties:
+  - name: last_touch_date_time
 
 - kind: MakeUpPics
   ancestor: yes
